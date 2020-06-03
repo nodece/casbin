@@ -16,7 +16,7 @@ package model
 
 import (
 	"github.com/Knetic/govaluate"
-	"github.com/casbin/casbin/v2/util"
+	"github.com/nodece/casbin/util"
 )
 
 // FunctionMap represents the collection of Function.

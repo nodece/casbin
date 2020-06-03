@@ -18,9 +18,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/casbin/casbin/v2/model"
-	fileadapter "github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/casbin/casbin/v2/util"
+	"github.com/nodece/casbin/model"
+	fileadapter "github.com/nodece/casbin/persist/file-adapter"
+	"github.com/nodece/casbin/util"
 )
 
 func TestKeyMatchModelInMemory(t *testing.T) {

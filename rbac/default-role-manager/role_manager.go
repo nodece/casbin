@@ -18,9 +18,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/casbin/casbin/v2/errors"
-	"github.com/casbin/casbin/v2/log"
-	"github.com/casbin/casbin/v2/rbac"
+	"github.com/nodece/casbin/errors"
+	"github.com/nodece/casbin/log"
+	"github.com/nodece/casbin/rbac"
 )
 
 type MatchingFunc func(arg1, arg2 string) bool

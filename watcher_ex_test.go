@@ -17,7 +17,7 @@ package casbin
 import (
 	"testing"
 
-	"github.com/casbin/casbin/v2/model"
+	"github.com/nodece/casbin/model"
 )
 
 type SampleWatcherEx struct {

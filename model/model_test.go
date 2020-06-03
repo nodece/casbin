@@ -15,7 +15,7 @@
 package model
 
 import (
-	"github.com/casbin/casbin/v2/config"
+	"github.com/nodece/casbin/config"
 	"io/ioutil"
 	"path/filepath"
 	"strings"

@@ -14,7 +14,7 @@
 
 package persist
 
-import "github.com/casbin/casbin/v2/model"
+import "github.com/nodece/casbin/model"
 
 // WatcherEx is the strengthen for Casbin watchers.
 type WatcherEx interface {

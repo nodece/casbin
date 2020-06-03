@@ -15,9 +15,9 @@
 package model
 
 import (
-	"github.com/casbin/casbin/v2/log"
-	"github.com/casbin/casbin/v2/rbac"
-	"github.com/casbin/casbin/v2/util"
+	"github.com/nodece/casbin/log"
+	"github.com/nodece/casbin/rbac"
+	"github.com/nodece/casbin/util"
 )
 
 type PolicyOp int

@@ -15,8 +15,8 @@
 package casbin
 
 import (
-	"github.com/casbin/casbin/v2/model"
-	"github.com/casbin/casbin/v2/persist"
+	"github.com/nodece/casbin/model"
+	"github.com/nodece/casbin/persist"
 )
 
 const (

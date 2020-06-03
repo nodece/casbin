@@ -16,10 +16,10 @@ package casbin
 
 import (
 	"github.com/Knetic/govaluate"
-	"github.com/casbin/casbin/v2/effect"
-	"github.com/casbin/casbin/v2/model"
-	"github.com/casbin/casbin/v2/persist"
-	"github.com/casbin/casbin/v2/rbac"
+	"github.com/nodece/casbin/effect"
+	"github.com/nodece/casbin/model"
+	"github.com/nodece/casbin/persist"
+	"github.com/nodece/casbin/rbac"
 )
 
 var _ IEnforcer = &Enforcer{}
