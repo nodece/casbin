@@ -16,16 +16,111 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - name: Get dependencies
-        run: go get -v -t -d ./...
+      - name: Run go test
+        run:  make test
 
-      - name: Test
-        run: go test -v .
+  benchmark:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ 1.11, 1.12, 1.13, 1.14]
+    steps:
+      - uses: actions/checkout@v2
 
-      - name: Test Race
-        run: go test -race -v .
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Run go test bench
+        run: make benchmark
+
+  benchmark-regressions-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: new
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }}
+          path: old
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.14
+
+      - run: go get -u golang.org/x/perf/cmd/benchstat
+
+#      - name: Run benchmark for old
+#        run: |
+#          cd old
+#          make benchmark-regressions-check | tee output.txt
+#
+#      - name: Run benchmark for new
+#        run: |
+#          cd new
+#          make benchmark-regressions-check | tee output.txt
+#
+#      - name: Run benchstat
+#        env:
+#          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+#        run: |
+#          cat << EOF > body.md
+#          The computes and compares statistics about benchmarks for ${COMMIT_SHA} by [benchstat](https://github.com/golang/perf/tree/master/cmd/benchstat) with golang 1.14:
+#
+#          \`\`\`
+#          $(benchstat old/output.txt new/output.txt | tee benchstat.log)
+#          \`\`\`
+#          EOF
+#
+#          cat body.md
+
+      - name: Add comment to PR
+        env:
+          URL: ${{ github.event.pull_request.comments_url }}
+          ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_KEY }}
+        run: |
+          echo "test" >> body.md
+
+          curl -s -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > ./jq
+          chmod +x ./jq
+
+          data='{ "body": '"$(./jq -R -s < body.md)"' }'
+          res=$(curl -s \
+            -X POST \
+            "$URL" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $ACCESS_TOKEN" \
+            --data "$data")
+
+          url=$(echo "$res" | jq -r '.url')
+
+          if [[ -z $url || $url == null ]]; then
+            echo "$res"
+            exit 1
+          fi
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.14
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v1
+        with:
+          version: v1.28
 
   semantic-release:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
